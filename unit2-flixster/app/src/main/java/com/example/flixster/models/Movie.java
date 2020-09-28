@@ -10,6 +10,7 @@ import java.util.List;
 
 @Parcel
 public class Movie {
+    int movieId;
     String posterPath;
     String title;
     String overview;
@@ -20,6 +21,7 @@ public class Movie {
     static final String KEY_TITLE = "title";
     static final String KEY_OVERVIEW = "overview";
     static final String KEY_RATING = "vote_average";
+    static final String KEY_MOVIE_ID = "id";
 
     public static final String KEY_MOVIE = "movie";
 
@@ -28,6 +30,7 @@ public class Movie {
     }
 
     public Movie(JSONObject jsonObject) throws JSONException {
+        movieId = jsonObject.getInt(KEY_MOVIE_ID);
         posterPath = jsonObject.getString(KEY_POSTER_PATH);
         title = jsonObject.getString(KEY_TITLE);
         overview = jsonObject.getString(KEY_OVERVIEW);
@@ -56,5 +59,9 @@ public class Movie {
 
     public double getRating() {
         return rating;
+    }
+
+    public int getMovieId() {
+        return movieId;
     }
 }

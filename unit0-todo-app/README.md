@@ -26,7 +26,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://github.com/RuolinZheng08/codepath-android-simple-todo-app/blob/master/unit0-todo-app/simple-todo.gif' width='' alt='Video Walkthrough' />
+<img src='https://github.com/RuolinZheng08/codepath-android-university/blob/master/unit0-todo-app/simple-todo.gif' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
