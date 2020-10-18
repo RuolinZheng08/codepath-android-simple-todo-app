@@ -5,13 +5,11 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import java.util.List;
 
 public class ParseApplication extends Application {
+
+    public static final String APP_TAG = ParseApplication.class.getSimpleName();
 
     @Override
     public void onCreate() {
