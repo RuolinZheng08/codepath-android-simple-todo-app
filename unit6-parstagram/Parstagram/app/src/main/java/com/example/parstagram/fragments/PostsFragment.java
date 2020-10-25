@@ -3,14 +3,33 @@ package com.example.parstagram.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.parstagram.MainActivity;
+import com.example.parstagram.Post;
+import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostsFragment extends Fragment {
+
+    private static final int MAX_POSTS = 20; // max number of posts to fetch
+
+    private RecyclerView rvPosts;
+    private PostsAdapter adapter;
+
+    private List<Post> allPosts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -23,6 +42,36 @@ public class PostsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+        super.onViewCreated(view, savedInstanceState);
+        rvPosts = view.findViewById(R.id.rvPosts);
+
+        allPosts = new ArrayList<>();
+        adapter = new PostsAdapter(getContext(), allPosts);
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        queryPosts();
+    }
+
+    private void queryPosts() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER); // each post includes the user who created the post
+        query.setLimit(MAX_POSTS);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getContext(), e.getLocalizedMessage(),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(),
+                            String.format("Fetched %d posts", posts.size()),
+                            Toast.LENGTH_SHORT).show();
+                    allPosts.addAll(posts);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 }
