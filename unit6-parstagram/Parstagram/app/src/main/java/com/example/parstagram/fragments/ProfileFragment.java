@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.example.parstagram.LoginActivity;
 import com.example.parstagram.Post;
 import com.example.parstagram.R;
@@ -39,6 +41,10 @@ public class ProfileFragment extends PostsFragment {
                 // navigate back to login screen
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
+                FragmentActivity activity = getActivity();
+                if (activity != null) {
+                    activity.finish();
+                }
             }
         });
     }
@@ -57,11 +63,12 @@ public class ProfileFragment extends PostsFragment {
                     Toast.makeText(getContext(), e.getLocalizedMessage(),
                             Toast.LENGTH_SHORT).show();
                 } else {
+                    adapter.clear();
                     Toast.makeText(getContext(),
                             String.format("Fetched %d posts", posts.size()),
                             Toast.LENGTH_SHORT).show();
-                    allPosts.addAll(posts);
-                    adapter.notifyDataSetChanged();
+                    adapter.addAll(posts);
+                    swipeContainer.setRefreshing(false);
                 }
             }
         });
