@@ -3,27 +3,24 @@ package com.example.parstagram;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.parstagram.fragments.ComposeFragment;
+import com.example.parstagram.fragments.PostsFragment;
+import com.example.parstagram.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-
-
-    private Button btnLogout;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -35,20 +32,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLogout = findViewById(R.id.btnLogout);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // define your fragments here
+        final Fragment postsFragment = new PostsFragment();
+        final Fragment composeFragment = new ComposeFragment();
+        final Fragment profileFragment = new ProfileFragment();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logOut();
-                // navigate back to login screen
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -56,20 +47,22 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
-//                        fragment = fragment1;
+                        fragment = postsFragment;
                         break;
                     case R.id.action_compose:
-//                        fragment = fragment2;
+                        fragment = composeFragment;
                         break;
                     case R.id.action_profile:
                     default:
-//                        fragment = fragment3;
+                        fragment = profileFragment;
                         break;
                 }
-//                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
+
+        bottomNavigationView.setSelectedItemId(R.id.action_compose);
 
         queryPosts();
     }
