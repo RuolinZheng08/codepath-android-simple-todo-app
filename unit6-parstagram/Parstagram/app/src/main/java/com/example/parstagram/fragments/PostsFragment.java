@@ -24,12 +24,12 @@ import java.util.List;
 
 public class PostsFragment extends Fragment {
 
-    private static final int MAX_POSTS = 20; // max number of posts to fetch
+    protected static final int MAX_POSTS = 20; // max number of posts to fetch
 
     private RecyclerView rvPosts;
-    private PostsAdapter adapter;
+    protected PostsAdapter adapter;
 
-    private List<Post> allPosts;
+    protected List<Post> allPosts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class PostsFragment extends Fragment {
         queryPosts();
     }
 
-    private void queryPosts() {
+    protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER); // each post includes the user who created the post
         query.setLimit(MAX_POSTS);
