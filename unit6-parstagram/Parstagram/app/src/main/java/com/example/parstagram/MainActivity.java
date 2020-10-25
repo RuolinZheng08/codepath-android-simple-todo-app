@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.parstagram.fragments.ComposeFragment;
 import com.example.parstagram.fragments.PostsFragment;
+import com.example.parstagram.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // define your fragments here
         final Fragment postsFragment = new PostsFragment();
         final Fragment composeFragment = new ComposeFragment();
-//        final Fragment profileFragment = new ProfileFragment();
+        final Fragment profileFragment = new ProfileFragment();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                     default:
-                        fragment = postsFragment;
+                        fragment = profileFragment;
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
